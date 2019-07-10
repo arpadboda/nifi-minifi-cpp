@@ -101,7 +101,7 @@ build_deps(){
             install_bison
           elif [ "$FOUND_VALUE" = "flex" ]; then
             INSTALLED+=("flex")
-	  elif [ "$FOUND_VALUE" = "automake" ]; then
+	      elif [ "$FOUND_VALUE" = "automake" ]; then
             INSTALLED+=("automake")
           elif [ "$FOUND_VALUE" = "autoconf" ]; then
             INSTALLED+=("autoconf")
@@ -117,6 +117,8 @@ build_deps(){
             INSTALLED+=("xz-devel")
           elif [ "$FOUND_VALUE" = "libssh2" ]; then
             INSTALLED+=("libssh2-devel")
+          elif [ "$FOUND_VALUE" = "mbedtls" ]; then
+            INSTALLED+=("mbedtls")
           fi
         fi
       done

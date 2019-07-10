@@ -79,11 +79,13 @@ build_deps(){
             INSTALLED+=("liblzma-dev")
           elif [ "$FOUND_VALUE" = "libssh2" ]; then
             INSTALLED+=("libssh2-1-dev")
+          elif [ "$FOUND_VALUE" = "mbedtls" ]; then
+            INSTALLED+=("ibmbedtls10")
           fi
         fi
       done
 
-    fi
+    fil
   done
   
   INSTALLED+=("autoconf")
