@@ -205,6 +205,7 @@ namespace processors {
     if(opcnode.data.size() > 0) {
       //if (extractValue_) {
       try {
+        logger_->log_error("Arpad log: extracting value of %s - data type is: %d", opcnode.attributes.at("Browsename"), opcnode.dataTypeID);
         std::string value = opc::nodeValue2String(opcnode);
         FetchOPCProcessor::WriteCallback callback(reinterpret_cast<uint8_t*>(&value[0]), value.size());  // I'm sorry for this...
         session->write(flowFile, &callback);
