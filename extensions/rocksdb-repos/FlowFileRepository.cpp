@@ -69,7 +69,6 @@ void FlowFileRepository::flush() {
     batch.Delete(keys[i]);
   }
 
-
   if (db_->Write(rocksdb::WriteOptions(), &batch).ok()) {
     logger_->log_trace("Decrementing %u from a repo size of %u", decrement_total, repo_size_.load());
     if (decrement_total > repo_size_.load()) {
@@ -87,6 +86,14 @@ void FlowFileRepository::flush() {
       }
     }
   }
+
+  std::string out;
+  db_->GetProperty("rocksdb.estimate-table-readers-mem", &out);
+  logger_->log_error("Arpika log - Flowfile repo rocksdb.estimate-table-readers-mem: %s", out);
+
+  db_->GetProperty("rocksdb.cur-size-all-mem-tables", &out);
+  logger_->log_error("Arpika log - Flowfile repo rocksdb.cur-size-all-mem-tables: %s", out);
+
 }
 
 void FlowFileRepository::run() {

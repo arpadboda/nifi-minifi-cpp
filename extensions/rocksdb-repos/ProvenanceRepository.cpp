@@ -50,6 +50,13 @@ void ProvenanceRepository::flush() {
       repo_size_ -= decrement_total;
     }
   }
+
+  std::string out;
+  db_->GetProperty("rocksdb.estimate-table-readers-mem", &out);
+  logger_->log_error("Arpika log - Provenance repo rocksdb.estimate-table-readers-mem: %s", out);
+
+  db_->GetProperty("rocksdb.cur-size-all-mem-tables", &out);
+  logger_->log_error("Arpika log - Provenance repo rocksdb.cur-size-all-mem-tables: %s", out);
 }
 
 void ProvenanceRepository::run() {

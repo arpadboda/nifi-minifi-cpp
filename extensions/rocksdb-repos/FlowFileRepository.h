@@ -103,6 +103,9 @@ class FlowFileRepository : public core::Repository, public std::enable_shared_fr
     options.create_if_missing = true;
     options.use_direct_io_for_flush_and_compaction = true;
     options.use_direct_reads = true;
+    options.write_buffer_size = 8 << 20;
+    options.max_write_buffer_number = 3;
+    options.min_write_buffer_number_to_merge = 1;
     rocksdb::Status status = rocksdb::DB::Open(options, directory_, &db_);
     if (status.ok()) {
       logger_->log_debug("NiFi FlowFile Repository database open %s success", directory_);
@@ -118,6 +121,7 @@ class FlowFileRepository : public core::Repository, public std::enable_shared_fr
     // persistent to the DB
     rocksdb::Slice value((const char *) buf, bufLen);
     repo_size_ += bufLen;
+    logger_->log_error("Arpika log: putting %zu record", 1);
     return db_->Put(rocksdb::WriteOptions(), key, value).ok();
   }
 
@@ -129,6 +133,7 @@ class FlowFileRepository : public core::Repository, public std::enable_shared_fr
         return false;
       }
     }
+    logger_->log_error("Arpika log: putting %zu record", batch.Count());
     return db_->Write(rocksdb::WriteOptions(), &batch).ok();
   }
 
