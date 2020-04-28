@@ -149,9 +149,7 @@ void InvokeHTTP::initialize() {
 
   setSupportedProperties(properties);
   // Set the supported relationships
-  std::set<core::Relationship> relationships;
-  relationships.insert(Success);
-  setSupportedRelationships(relationships);
+  setSupportedRelationships({Success, RelFailure, RelNoRetry, RelRetry});
 }
 
 void InvokeHTTP::onSchedule(const std::shared_ptr<core::ProcessContext> &context, const std::shared_ptr<core::ProcessSessionFactory> &sessionFactory) {
@@ -367,6 +365,9 @@ void InvokeHTTP::onTrigger(const std::shared_ptr<core::ProcessContext> &context,
       response_flow = std::static_pointer_cast<FlowFileRecord>(session->create());
     }
     route(flowFile, response_flow, session, context, isSuccess, http_code);
+  } else {
+    session->penalize(flowFile);
+    session->transfer(flowFile, RelFailure);
   }
 }
 

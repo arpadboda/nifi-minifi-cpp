@@ -945,7 +945,7 @@ std::shared_ptr<state::response::ResponseNode> FlowController::getMetricsNode(co
 std::vector<std::shared_ptr<state::response::ResponseNode>> FlowController::getHeartbeatNodes(bool includeManifest) const {
   std::string fullHb{"true"};
   configuration_->get("nifi.c2.full.heartbeat", fullHb);
-  const bool include = includeManifest ? true : (fullHb == "true");
+  const bool include = includeManifest ? true : false;
 
   std::vector<std::shared_ptr<state::response::ResponseNode>> nodes;
   for (const auto& entry : root_response_nodes_) {

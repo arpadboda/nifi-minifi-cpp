@@ -56,6 +56,7 @@ std::shared_ptr<Transaction> HttpSiteToSiteClient::createTransaction(std::string
   auto client = create_http_client(uri.str(), "POST");
   client->appendHeader(PROTOCOL_VERSION_HEADER, "1");
   client->setConnectionTimeout(5);
+  client->setReadTimeout(20);
   client->setContentType("application/json");
   client->appendHeader("Accept: application/json");
   client->setUseChunkedEncoding();
@@ -189,6 +190,8 @@ bool HttpSiteToSiteClient::getPeerList(std::vector<PeerStatus> &peers) {
   auto client = create_http_client(uri.str(), "GET");
 
   client->appendHeader(PROTOCOL_VERSION_HEADER, "1");
+  client->setReadTimeout(2);
+  client->setConnectionTimeout(2);
 
   client->submit();
 
@@ -283,6 +286,7 @@ void HttpSiteToSiteClient::closeTransaction(const std::string &transactionID) {
   client->appendHeader(PROTOCOL_VERSION_HEADER, "1");
 
   client->setConnectionTimeout(5);
+  client->setReadTimeout(3);
 
   client->appendHeader("Accept", "application/json");
 

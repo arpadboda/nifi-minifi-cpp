@@ -205,10 +205,12 @@ bool HTTPClient::setMinimumSSLVersion(SSLVersion minimum_version) {
 void HTTPClient::setConnectionTimeout(int64_t timeout) {
   connect_timeout_ = timeout;
   curl_easy_setopt(http_session_, CURLOPT_NOSIGNAL, 1);
+  curl_easy_setopt(http_session_, CURLOPT_CONNECTTIMEOUT, timeout);
 }
 
 void HTTPClient::setReadTimeout(int64_t timeout) {
   read_timeout_ = timeout;
+  curl_easy_setopt(http_session_, CURLOPT_TIMEOUT, timeout);
 }
 
 void HTTPClient::setReadCallback(HTTPReadCallback *callbackObj) {
