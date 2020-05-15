@@ -37,6 +37,13 @@ bool DatabaseContentRepository::initialize(const std::shared_ptr<minifi::Configu
     directory_ = configuration->getHome() + "/dbcontentrepository";
   }
   rocksdb::Options options;
+  // Rocksdb write buffers act as a log of database operation: grow till reaching the limit, serialized after
+  // This shouldn't go above 16MB and the configured total size of the db should cap it as well
+  int64_t max_buffer_size = 6 << 20;
+  options.write_buffer_size = max_buffer_size;
+  options.max_write_buffer_number = 8;
+  options.min_write_buffer_number_to_merge = 2;
+
   options.create_if_missing = true;
   options.use_direct_io_for_flush_and_compaction = true;
   options.use_direct_reads = true;
