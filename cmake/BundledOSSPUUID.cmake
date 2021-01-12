@@ -21,8 +21,8 @@ function(use_bundled_osspuuid SOURCE_DIR BINARY_DIR)
     message("Using bundled ossp-uuid")
 
     # Define patch step
-    set(PC "${Patch_EXECUTABLE}" -p1 -i "${SOURCE_DIR}/thirdparty/ossp-uuid/ossp-uuid-mac-fix.patch" &&
-           "${Patch_EXECUTABLE}" -p1 -i "${SOURCE_DIR}/thirdparty/ossp-uuid/ossp-uuid-no-prog.patch")
+    set(PC "${Patch_EXECUTABLE}" -p1 -N -r- -i "${SOURCE_DIR}/thirdparty/ossp-uuid/ossp-uuid-mac-fix.patch" &&
+           "${Patch_EXECUTABLE}" -p1 -N -r- -i "${SOURCE_DIR}/thirdparty/ossp-uuid/ossp-uuid-no-prog.patch" || :)
 
     # Define byproducts
     set(BYPRODUCTS "lib/libuuid.a"
